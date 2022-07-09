@@ -1,6 +1,6 @@
 <template>
   <div v-show="getIsShow">
-    <textarea cols="50" rows="10" v-model="content"></textarea>
+    <textarea cols="50" rows="10" v-model="getContent"></textarea>
     <button @click="saveMemo">編集</button>
     <button>削除</button>
   </div>
@@ -9,11 +9,10 @@
 <script>
 export default {
   name: 'MemoForm',
-  props: ['isShow'],
+  props: ['isShow', 'index', 'content'],
   data () {
     return {
-      memos: [],
-      content: ''
+      memos: []
     }
   },
   computed: {
@@ -24,18 +23,33 @@ export default {
       set (isShow) {
         this.$emit('set-isShow', isShow)
       }
+    },
+    getContent: {
+      get () {
+        return this.content
+      },
+      set (content) {
+        this.$emit('set-content', content)
+      }
     }
   },
   methods: {
     saveMemo () {
       if (!this.content) return
-      const memo = {
-        id: new Date().getTime().toString(),
-        content: this.content
+      if (this.index === null) {
+        const memo = {
+          id: new Date().getTime().toString(),
+          content: this.content
+        }
+        this.memos.push(memo)
+        this.$emit('click-save-memo-emit-index', this.memos.length - 1)
+      } else {
+        this.memos.splice(this.index, 1, {
+          id: this.memos[this.index].id,
+          content: this.content
+        })
       }
-      this.memos.push(memo)
-      this.content = ''
-      this.$emit('click-save-memo', this.memos)
+      this.$emit('click-save-memo-emit-memos', this.memos)
     }
   }
 }

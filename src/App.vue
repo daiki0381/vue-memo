@@ -1,7 +1,19 @@
 <template>
   <div id="app">
-    <MemoList :memos="memos" @click-add-memo="getIsShow" />
-    <MemoForm :is-show="isShow" @set-isShow="getIsShow" @click-save-memo="getMemos" />
+    <MemoList
+      :memos="memos"
+      @click-add-memo="getIsShowAndIndexAndContent"
+      @click-show-memo="getIsShowAndIndexAndContent"
+    />
+    <MemoForm
+      :is-show="isShow"
+      :index="index"
+      :content="content"
+      @set-isShow="getIsShow"
+      @set-content="getContent"
+      @click-save-memo-emit-index="getIndex"
+      @click-save-memo-emit-memos="getMemos"
+    />
   </div>
 </template>
 
@@ -18,7 +30,9 @@ export default {
   data () {
     return {
       isShow: false,
-      memos: []
+      memos: [],
+      index: null,
+      content: ''
     }
   },
   methods: {
@@ -27,6 +41,17 @@ export default {
     },
     getMemos (memos) {
       this.memos = memos
+    },
+    getIndex (index) {
+      this.index = index
+    },
+    getContent (content) {
+      this.content = content
+    },
+    getIsShowAndIndexAndContent (isShow, index, content) {
+      this.isShow = isShow
+      this.index = index
+      this.content = content
     }
   }
 }
