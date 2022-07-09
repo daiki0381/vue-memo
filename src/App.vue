@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <MemoList />
-    <MemoForm />
+    <MemoList @click-add-memo="getIsShow" />
+    <MemoForm :is-show="isShow" @set-isShow="getIsShow" />
   </div>
 </template>
 
@@ -14,6 +14,16 @@ export default {
   components: {
     MemoList,
     MemoForm
+  },
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  methods: {
+    getIsShow (isShow) {
+      this.isShow = isShow
+    }
   }
 }
 </script>
