@@ -7,9 +7,11 @@
     />
     <MemoForm
       :is-show="isShow"
+      :memos="memos"
       :index="index"
       :content="content"
       @set-isShow="getIsShow"
+      @set-memos="getMemos"
       @set-content="getContent"
       @click-remove-memo="getMemos"
       @click-save-memo-emit-index="getIndex"
@@ -35,6 +37,10 @@ export default {
       index: null,
       content: ''
     }
+  },
+  created () {
+    const memos = JSON.parse(localStorage.getItem('memos'))
+    if (memos) this.memos = memos
   },
   methods: {
     getIsShow (isShow) {

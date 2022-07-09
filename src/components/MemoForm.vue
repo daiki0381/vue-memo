@@ -9,12 +9,7 @@
 <script>
 export default {
   name: 'MemoForm',
-  props: ['isShow', 'index', 'content'],
-  data () {
-    return {
-      memos: []
-    }
-  },
+  props: ['isShow', 'memos', 'index', 'content'],
   computed: {
     getIsShow: {
       get () {
@@ -22,6 +17,14 @@ export default {
       },
       set (isShow) {
         this.$emit('set-isShow', isShow)
+      }
+    },
+    getMemos: {
+      get () {
+        return this.memos
+      },
+      set (memos) {
+        this.$emit('set-memos', memos)
       }
     },
     getContent: {
@@ -41,24 +44,29 @@ export default {
           id: new Date().getTime().toString(),
           content: this.content
         }
-        this.memos.push(memo)
+        this.getMemos.push(memo)
         this.$emit('click-save-memo-emit-index', this.memos.length - 1)
       } else {
-        this.memos.splice(this.index, 1, {
+        this.getMemos.splice(this.index, 1, {
           id: this.memos[this.index].id,
           content: this.content
         })
       }
       this.$emit('click-save-memo-emit-memos', this.memos)
+      this.saveMemos()
     },
     removeMemo () {
       if (this.index === null) {
         this.getIsShow = false
       } else {
-        this.memos.splice(this.index, 1)
+        this.getMemos.splice(this.index, 1)
         this.getIsShow = false
         this.$emit('click-remove-memo', this.memos)
+        this.saveMemos()
       }
+    },
+    saveMemos () {
+      localStorage.setItem('memos', JSON.stringify(this.memos))
     }
   }
 }
