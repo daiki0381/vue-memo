@@ -1,22 +1,29 @@
 <template>
   <div id="app">
-    <MemoList
-      :memos="memos"
-      @click-add-memo="getIsShowAndIndexAndContent"
-      @click-show-memo="getIsShowAndIndexAndContent"
-    />
-    <MemoForm
-      :is-show="isShow"
-      :memos="memos"
-      :index="index"
-      :content="content"
-      @set-isShow="getIsShow"
-      @set-memos="getMemos"
-      @set-content="getContent"
-      @click-remove-memo="getMemos"
-      @click-save-memo-emit-index="getIndex"
-      @click-save-memo-emit-memos="getMemos"
-    />
+    <v-app>
+      <v-main>
+        <v-container fluid>
+          <MemoList
+            class="mb-8"
+            :memos="memos"
+            @click-add-memo="getIsShowAndIndexAndContent"
+            @click-show-memo="getIsShowAndIndexAndContent"
+          />
+          <MemoForm
+            :is-show="isShow"
+            :memos="memos"
+            :index="index"
+            :content="content"
+            @set-isShow="getIsShow"
+            @set-memos="getMemos"
+            @set-content="getContent"
+            @click-remove-memo="getMemos"
+            @click-save-memo-emit-index="getIndex"
+            @click-save-memo-emit-memos="getMemos"
+          />
+        </v-container>
+      </v-main>
+    </v-app>
   </div>
 </template>
 

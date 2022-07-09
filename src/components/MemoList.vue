@@ -1,13 +1,15 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(memo, index) in memos" :key="memo.id">
+    <ul class="mb-2 pl-0">
+      <li v-for="(memo, index) in memos" :key="memo.id" class="mb-1">
         <span @click="showMemo(index, memo.content)">{{
           memo.content.split(/\n/)[0]
         }}</span>
       </li>
     </ul>
-    <button @click="addMemo">+</button>
+    <v-btn elevation="2" color="success" raised rounded @click="addMemo"
+      >+</v-btn
+    >
   </div>
 </template>
 
@@ -26,4 +28,13 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped lang="scss">
+li {
+  list-style-type: none;
+  span:hover {
+    color: #0000ee;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+</style>
