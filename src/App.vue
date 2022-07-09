@@ -11,6 +11,7 @@
       :content="content"
       @set-isShow="getIsShow"
       @set-content="getContent"
+      @click-remove-memo="getMemos"
       @click-save-memo-emit-index="getIndex"
       @click-save-memo-emit-memos="getMemos"
     />

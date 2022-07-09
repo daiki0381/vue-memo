@@ -2,7 +2,7 @@
   <div v-show="getIsShow">
     <textarea cols="50" rows="10" v-model="getContent"></textarea>
     <button @click="saveMemo">編集</button>
-    <button>削除</button>
+    <button @click="removeMemo">削除</button>
   </div>
 </template>
 
@@ -50,11 +50,18 @@ export default {
         })
       }
       this.$emit('click-save-memo-emit-memos', this.memos)
+    },
+    removeMemo () {
+      if (this.index === null) {
+        this.getIsShow = false
+      } else {
+        this.memos.splice(this.index, 1)
+        this.getIsShow = false
+        this.$emit('click-remove-memo', this.memos)
+      }
     }
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

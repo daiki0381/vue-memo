@@ -2,7 +2,9 @@
   <div>
     <ul>
       <li v-for="(memo, index) in memos" :key="memo.id">
-        <span @click="showMemo(index, memo.content)">{{ memo.content.split(/\n/)[0] }}</span>
+        <span @click="showMemo(index, memo.content)">{{
+          memo.content.split(/\n/)[0]
+        }}</span>
       </li>
     </ul>
     <button @click="addMemo">+</button>
@@ -24,6 +26,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
