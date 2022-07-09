@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <MemoList @click-add-memo="getIsShow" />
-    <MemoForm :is-show="isShow" @set-isShow="getIsShow" />
+    <MemoList :memos="memos" @click-add-memo="getIsShow" />
+    <MemoForm :is-show="isShow" @set-isShow="getIsShow" @click-save-memo="getMemos" />
   </div>
 </template>
 
@@ -17,12 +17,16 @@ export default {
   },
   data () {
     return {
-      isShow: false
+      isShow: false,
+      memos: []
     }
   },
   methods: {
     getIsShow (isShow) {
       this.isShow = isShow
+    },
+    getMemos (memos) {
+      this.memos = memos
     }
   }
 }
