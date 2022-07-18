@@ -3,24 +3,8 @@
     <v-app>
       <v-main>
         <v-container fluid>
-          <MemoList
-            class="mb-8"
-            :memos="memos"
-            @click-add-memo="getIsShowAndIndexAndContent"
-            @click-show-memo="getIsShowAndIndexAndContent"
-          />
-          <MemoForm
-            :is-show="isShow"
-            :memos="memos"
-            :index="index"
-            :content="content"
-            @set-isShow="getIsShow"
-            @set-memos="getMemos"
-            @set-content="getContent"
-            @click-remove-memo="getMemos"
-            @click-save-memo-emit-index="getIndex"
-            @click-save-memo-emit-memos="getMemos"
-          />
+          <MemoList />
+          <MemoForm />
         </v-container>
       </v-main>
     </v-app>
@@ -30,6 +14,7 @@
 <script>
 import MemoList from '@/components/MemoList.vue'
 import MemoForm from '@/components/MemoForm.vue'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
@@ -37,38 +22,23 @@ export default {
     MemoList,
     MemoForm
   },
-  data () {
-    return {
-      isShow: false,
-      memos: [],
-      index: null,
-      content: ''
-    }
-  },
   created () {
     const memos = JSON.parse(localStorage.getItem('memos'))
-    if (memos) this.memos = memos
+    if (memos) this.setMemos(memos)
+  },
+  computed: {
+    ...mapGetters(['getMemos']),
+    memos () {
+      return this.getMemos
+    }
   },
   methods: {
-    getIsShow (isShow) {
-      this.isShow = isShow
-    },
-    getMemos (memos) {
-      this.memos = memos
-    },
-    getIndex (index) {
-      this.index = index
-    },
-    getContent (content) {
-      this.content = content
-    },
-    getIsShowAndIndexAndContent (isShow, index, content) {
-      this.isShow = isShow
-      this.index = index
-      this.content = content
+    ...mapMutations(['setMemos'])
+  },
+  watch: {
+    memos (memos) {
+      localStorage.setItem('memos', JSON.stringify(memos))
     }
   }
 }
 </script>
-
-<style></style>

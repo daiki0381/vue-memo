@@ -1,9 +1,9 @@
 <template>
-  <div v-show="getIsShow">
+  <div v-show="isShow">
     <v-textarea
       solo
       label="メモを入力してください"
-      v-model="getContent"
+      v-model="computedContent"
     ></v-textarea>
     <v-btn
       class="mr-2"
@@ -11,79 +11,61 @@
       color="primary"
       raised
       rounded
-      @click="saveMemo"
+      @click="clickSaveMemo"
       >編集</v-btn
     >
-    <v-btn elevation="2" color="error" raised rounded @click="removeMemo"
+    <v-btn elevation="2" color="error" raised rounded @click="clickDeleteMemo"
       >削除</v-btn
     >
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'MemoForm',
-  props: ['isShow', 'memos', 'index', 'content'],
   computed: {
-    getIsShow: {
+    ...mapState(['isShow', 'index', 'memos']),
+    ...mapGetters(['getContent']),
+    computedContent: {
       get () {
-        return this.isShow
-      },
-      set (isShow) {
-        this.$emit('set-isShow', isShow)
-      }
-    },
-    getMemos: {
-      get () {
-        return this.memos
-      },
-      set (memos) {
-        this.$emit('set-memos', memos)
-      }
-    },
-    getContent: {
-      get () {
-        return this.content
+        return this.getContent
       },
       set (content) {
-        this.$emit('set-content', content)
+        this.setContent(content)
       }
     }
   },
   methods: {
-    saveMemo () {
-      if (!this.content) return
+    ...mapMutations([
+      'setIsShow',
+      'setIndex',
+      'setContent',
+      'addMemo',
+      'editMemo',
+      'deleteMemo'
+    ]),
+    clickSaveMemo () {
+      if (!this.getContent) return
       if (this.index === null) {
         const memo = {
           id: new Date().getTime().toString(),
-          content: this.content
+          content: this.getContent
         }
-        this.getMemos.push(memo)
-        this.$emit('click-save-memo-emit-index', this.memos.length - 1)
+        this.addMemo(memo)
+        this.setIndex(this.memos.length - 1)
       } else {
-        this.getMemos.splice(this.index, 1, {
+        this.editMemo({
           id: this.memos[this.index].id,
-          content: this.content
+          content: this.getContent
         })
       }
-      this.$emit('click-save-memo-emit-memos', this.memos)
-      this.saveMemos()
     },
-    removeMemo () {
-      if (this.index === null) {
-        this.getIsShow = false
-      } else {
-        this.getMemos.splice(this.index, 1)
-        this.getIsShow = false
-        this.$emit('click-remove-memo', this.memos)
-        this.saveMemos()
-      }
-    },
-    saveMemos () {
-      localStorage.setItem('memos', JSON.stringify(this.memos))
+    clickDeleteMemo () {
+      if (this.index !== null) this.deleteMemo()
+      this.setIsShow(false)
     }
   }
 }
 </script>
-
-<style></style>

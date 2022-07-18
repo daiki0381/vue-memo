@@ -1,29 +1,43 @@
 <template>
-  <div>
+  <div class="mb-6">
     <ul class="mb-2 pl-0">
-      <li v-for="(memo, index) in memos" :key="memo.id" class="mb-1">
-        <span @click="showMemo(index, memo.content)">{{
-          memo.content.split(/\n/)[0]
-        }}</span>
+      <li class="mb-1" v-for="(memo, index) in memos" :key="memo.id">
+        <span
+          @click="
+            setIsShowAndIndexAndContent({
+              isShow: true,
+              index: index,
+              content: memo.content,
+            })
+          "
+        >
+          {{ memo.content.split(/\n/)[0] }}
+        </span>
       </li>
     </ul>
-    <v-btn elevation="2" color="success" raised rounded @click="addMemo"
+    <v-btn
+      elevation="2"
+      color="success"
+      raised
+      rounded
+      @click="
+        setIsShowAndIndexAndContent({ isShow: true, index: null, content: '' })
+      "
       >+</v-btn
     >
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'MemoList',
-  props: ['memos'],
+  computed: {
+    ...mapState(['memos'])
+  },
   methods: {
-    addMemo () {
-      this.$emit('click-add-memo', true, null, '')
-    },
-    showMemo (index, content) {
-      this.$emit('click-show-memo', true, index, content)
-    }
+    ...mapMutations(['setIsShowAndIndexAndContent'])
   }
 }
 </script>
