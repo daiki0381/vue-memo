@@ -3,8 +3,7 @@
     <v-app>
       <v-main>
         <v-container fluid>
-          <MemoList />
-          <MemoForm />
+          <MemoApp />
         </v-container>
       </v-main>
     </v-app>
@@ -12,15 +11,13 @@
 </template>
 
 <script>
-import MemoList from '@/components/MemoList.vue'
-import MemoForm from '@/components/MemoForm.vue'
+import MemoApp from '@/components/MemoApp.vue'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
   components: {
-    MemoList,
-    MemoForm
+    MemoApp
   },
   created () {
     const memos = JSON.parse(localStorage.getItem('memos'))
